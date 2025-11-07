@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 200px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .success-message {
+            background: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+            }
+            
+            .col {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Registration Form</h1>
+        
+        <form action="/readstudents/" id="studentForm" method="post">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="firstName" class="required">First Name</label>
+                        <input type="text" id="firstName" name="first_name" placeholder="Enter first name">
+                        <div class="error" id="firstNameError">First name is required</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lastName" class="required">Last Name</label>
+                        <input type="text" id="lastName" name="last_name" placeholder="Enter last name">
+                        <div class="error" id="lastNameError">Last name is required</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email address">
+                        <div class="error" id="emailError">Valid email is required</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="phone" class="required">Phone Number</label>
+                        <input type="tel" id="phone" name="contact" placeholder="Enter phone number">
+                        <div class="error" id="phoneError">Valid phone number is required</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="dob" class="required">Date of Birth</label>
+                        <input type="date" id="dob" name="dob">
+                        <div class="error" id="dobError">Date of birth is required</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="gender" class="required">Gender</label>
+                        <select id="gender" name="gender">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                        <div class="error" id="genderError">Please select a gender</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="address" class="required">Address</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter your full address"></textarea>
+                <div class="error" id="addressError">Address is required</div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="city" class="required">City</label>
+                        <input type="text" id="city" name="city" placeholder="Enter city">
+                        <div class="error" id="cityError">City is required</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="state" class="required">State/Province</label>
+                        <input type="text" id="state" name="state" placeholder="Enter state or province">
+                        <div class="error" id="stateError">State is required</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="zipCode" class="required">Zip/Postal Code</label>
+                        <input type="text" id="zipCode" name="post" placeholder="Enter zip code">
+                        <div class="error" id="zipCodeError">Zip code is required</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="course" class="required">Course/Program</label>
+                        <select id="course" name="std_sub">
+                            <option value="">---Select Course---</option>
+                            {% for s in subjects %}
+                                <option value="{{ s.id }}">{{ s.Add_new_subject }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error" id="courseError">Please select a course</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="psw" class="required">Create Password</label>
+                        <input type="password" id="psw" placeholder="create password">
+                        <div class="error" id="createpasserror"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cpsw" class="required">Confirm Password</label>
+                        <input type="password" id="cpsw" name="upsw" placeholder="Re-enter Password to Confirm">
+                        <div class="error" id="confpasserror"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit">Register Student</button>
+            
+            <div class="success-message" id="successMessage">
+                Student registration completed successfully!
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            // Reset error messages
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Validate form fields
+            let isValid = true;
+            
+            // First Name validation
+            const firstName = document.getElementById('firstName').value.trim();
+            if (firstName === '') {
+                document.getElementById('firstNameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Last Name validation
+            const lastName = document.getElementById('lastName').value.trim();
+            if (lastName === '') {
+                document.getElementById('lastNameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Email validation
+            const email = document.getElementById('email').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '' || !emailPattern.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Phone validation
+            const phone = document.getElementById('phone').value.trim();
+            const phonePattern = /^[\+]?[1-9][\d]{0,15}$/;
+            if (phone === '' || !phonePattern.test(phone)) {
+                document.getElementById('phoneError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Date of Birth validation
+            const dob = document.getElementById('dob').value;
+            if (dob === '') {
+                document.getElementById('dobError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Gender validation
+            const gender = document.getElementById('gender').value;
+            if (gender === '') {
+                document.getElementById('genderError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Address validation
+            const address = document.getElementById('address').value.trim();
+            if (address === '') {
+                document.getElementById('addressError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // City validation
+            const city = document.getElementById('city').value.trim();
+            if (city === '') {
+                document.getElementById('cityError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // State validation
+            const state = document.getElementById('state').value.trim();
+            if (state === '') {
+                document.getElementById('stateError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Zip Code validation
+            const zipCode = document.getElementById('zipCode').value.trim();
+            if (zipCode === '') {
+                document.getElementById('zipCodeError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Course validation
+            const course = document.getElementById('course').value;
+            if (course === '') {
+                document.getElementById('courseError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Password validation
+            const createpass = document.getElementById('psw').value;
+            const confpass = document.getElementById('cpsw').value;
+            const confpasserror = document.getElementById('confpasserror');
+            const createpasserror = document.getElementById('createpasserror');
+
+            if (createpass.length < 6) {
+                createpasserror.textContent = 'Password must be at least 6 characters';
+                createpasserror.style.display = 'block';
+                isValid = false;
+            } else {
+                createpasserror.textContent = '';
+                createpasserror.style.display = 'none';
+            }
+
+            if (createpass !== confpass) {
+                confpasserror.textContent = 'Passwords do not match.';
+                confpasserror.style.display = 'block';
+                isValid = false;
+            } else {
+                confpasserror.textContent = '';
+                confpasserror.style.display = 'none';
+            }
+            
+            // If form is not valid, prevent submission
+            if (!isValid) {
+                event.preventDefault();
+            } else {
+                // If valid, show success message but allow form to submit
+                document.getElementById('successMessage').style.display = 'block';
+                // The form will submit normally to your Django backend
+            }
+        });
+    </script>
+</body>
+</html>

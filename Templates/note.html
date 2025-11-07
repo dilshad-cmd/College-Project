@@ -1,0 +1,186 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short-note</title>
+</head>
+<body>
+    <h2>Add Note</h2>
+
+<form method="POST" action="/addnotefunc/">
+    {% csrf_token %}
+
+    {% if assigned_subs|length > 1 %}
+        <label for="sub">Select Course:</label>
+        <select name="sub" id="sub" required>
+            <option value="">-- Select Course --</option>
+            {% for s in assigned_subs %}
+                <option value="{{ s.id }}">{{ s.Add_new_subject }}</option>
+            {% endfor %}
+        </select>
+    {% else %}
+        {% for s in assigned_subs %}
+            <input type="hidden" name="sub" value="{{ s.id }}">
+            <p>Adding note for <strong>{{ s.Add_new_subject }}</strong></p>
+        {% endfor %}
+    {% endif %}
+
+    <textarea name="addnote" placeholder="Enter note..." required></textarea>
+    <br>
+    <button type="submit">Add Note</button>
+</form>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Note</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .note-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .subject-info {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .subject-info p {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .note-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="note-container">
+        <h2>Add Note</h2>
+        
+        <form method="POST" action="/addnotefunc/">
+            {% csrf_token %}
+            
+            {% if assigned_subs|length > 1 %}
+                <div class="form-group">
+                    <label for="sub">Select Course:</label>
+                    <select name="sub" id="sub" required>
+                        <option value="">-- Select Course --</option>
+                        {% for s in assigned_subs %}
+                            <option value="{{ s.id }}">{{ s.Add_new_subject }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% else %}
+                <div class="subject-info">
+                    {% for s in assigned_subs %}
+                        <input type="hidden" name="sub" value="{{ s.id }}">
+                        <p>Adding note for <strong>{{ s.Add_new_subject }}</strong></p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="addnote">Note Content:</label>
+                <textarea name="addnote" id="addnote" placeholder="Enter your note here..." required></textarea>
+            </div>
+            
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>
+        STUDENT PORTAL <span style="color: crimson;">{{ stdname }}</span>
+    </h2>
+    <h3>Notes for {{ course.Add_new_subject }}</h3>
+
+    <div>
+        <h3>My NOTES</h3>
+    </div>
+
+    <div>
+        <ul>
+        {% for note in notes %}
+            <li>
+                <strong>{{ note.sub.Add_new_subject }}</strong>: {{ note.addnote }} <br>
+                <small>{{ note.created_at }}</small>
+            </li>
+        {% empty %}
+            <li>No notes available for your course yet.</li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .student-name {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+        
+        .course-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+        
+        .notes-section {
+            padding: 30px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+        }
+        
+        .notes-list {
+            list-style: none;
+        }
+        
+        .note-item {
+            background: white;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .note-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subject-name {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .note-content {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .note-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+
+        .nav-section {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 20px;
+            background-color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 10px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .notes-section {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>
+                STUDENT PORTAL <span class="student-name">{{ stdname }}</span>
+            </h2>
+        </header>
+        
+        <div class="course-info">
+            <h3>Notes for {{ course.Add_new_subject }}</h3>
+        </div>
+        
+        <div class="notes-section">
+            <h3 class="section-title">My NOTES</h3>
+            
+            <ul class="notes-list">
+            {% for note in notes %}
+                <li class="note-item">
+                    <span class="subject-name">
+                        <i class="fas fa-book"></i> {{ note.sub.Add_new_subject }}
+                    </span>
+                    <div class="note-content">
+                        {{ note.addnote }}
+                    </div>
+                    <div class="note-date">
+                        <i class="far fa-clock"></i> {{ note.created_at }}
+                    </div>
+                </li>
+            {% empty %}
+                <li class="empty-state">
+                    <i class="far fa-folder-open"></i>
+                    <p>No notes available for your course yet.</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="nav-section">
+            <a href="/studnetatt/" class="nav-link">
+                <i class="fas fa-cog"></i>
+                <div>
+                    <div>View attendance</div>
+                    <small>View students attendance</small>
+                </div>
+            </a>
+    </div>
+    </div>
+</body>
+</html>

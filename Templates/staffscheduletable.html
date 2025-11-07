@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Schedule</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .schedule-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        .schedule-table th {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .schedule-table td {
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .schedule-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .schedule-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .time-cell {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .subject-cell {
+            color: #2c3e50;
+        }
+        
+        .room-cell {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+        
+        .today {
+            background-color: #fff8e1 !important;
+            border-left: 3px solid #ffc107;
+        }
+        
+        @media (max-width: 600px) {
+            .schedule-container {
+                padding: 10px;
+            }
+            
+            .schedule-table {
+                font-size: 0.8rem;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 6px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="schedule-container">
+        <h2 class="page-title">My Weekly Schedule</h2>
+        {% load custom_tags %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    {% for day in weekday %}
+                        <th>{{ day }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in 1|to:6 %}
+                <tr>
+                    <td>{{ p }}</td>
+                    {% for day in weekday %}
+                        <td>
+                            {% for s in data %}
+                                {% if s.period == p|stringformat:"s" and s.weekly_days == day %}
+                                    <div class="subject-cell">{{ s.sub.Add_new_subject }}</div>
+                                    <div class="room-cell">{{ s.staffs.name }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        
+        
+        <div style="margin-top: 15px; font-size: 0.8rem; color: #7f8c8d;">
+            <div style="display: inline-block; width: 12px; height: 12px; background: #fff8e1; border-left: 3px solid #ffc107; margin-right: 5px;"></div>
+            Today's classes
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+            </thead>
+            <tbody>
+  
+                <tr>
+                    <td class="time-cell">1</td>
+                    <td class="today">
+                        <div class="subject-cell">{s.staffs.id}</div>
+                        <div class="room-cell">Room 204</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Physics</div>
+                        <div class="room-cell">Room 305</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Mathematics</div>
+                        <div class="room-cell">Room 204</div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="subject-cell">Physics Lab</div>
+                        <div class="room-cell">Lab B</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="time-cell">2</td>
+                    <td>
+                        <div class="subject-cell">Computer Science</div>
+                        <div class="room-cell">Lab A</div>
+                    </td>
+                    <td class="today">
+                        <div class="subject-cell">Mathematics</div>
+                        <div class="room-cell">Room 204</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">English</div>
+                        <div class="room-cell">Room 112</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Computer Science</div>
+                        <div class="room-cell">Lab A</div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="time-cell">3</td>
+                    <td></td>
+                    <td>
+                        <div class="subject-cell">Office Hours</div>
+                        <div class="room-cell">Office 15</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Physics</div>
+                        <div class="room-cell">Room 305</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Faculty Meeting</div>
+                        <div class="room-cell">Conference Room</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Mathematics</div>
+                        <div class="room-cell">Room 204</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="time-cell">4</td>
+                    <td>
+                        <div class="subject-cell">English</div>
+                        <div class="room-cell">Room 112</div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="subject-cell">Computer Science</div>
+                        <div class="room-cell">Lab A</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Physics</div>
+                        <div class="room-cell">Room 305</div>
+                    </td>
+                    <td>
+                        <div class="subject-cell">Office Hours</div>
+                        <div class="room-cell">Office 15</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table> -->
